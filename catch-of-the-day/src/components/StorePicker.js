@@ -1,10 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { getFunName } from '../helpers';
 
-class StorePicker extends Component {
+class StorePicker extends React.Component {
+  myInput = React.createRef();
+
+  goToStore = event => {
+    event.preventDefault();
+  };
+
   render() {
     return (
-      <form className="store-selector">
+      <form className="store-selector" onSubmit={this.goToStore}>
         <h2>Please Enter A Store</h2>
         <input
           type="text"
