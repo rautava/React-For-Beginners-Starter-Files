@@ -2,10 +2,15 @@ import React from 'react';
 import { getFunName } from '../helpers';
 
 class StorePicker extends React.Component {
-  myInput = React.createRef();
+  constructor(props) {
+    super(props);
+    this.myInput = React.createRef();
+  }
 
   goToStore = event => {
     event.preventDefault();
+    const storeName = this.myInput.current.value;
+    this.props.history.push(`/store/${storeName}`);
   };
 
   render() {
@@ -14,6 +19,7 @@ class StorePicker extends React.Component {
         <h2>Please Enter A Store</h2>
         <input
           type="text"
+          ref={this.myInput}
           required
           placeholder="Store Name"
           defaultValue={getFunName()}
