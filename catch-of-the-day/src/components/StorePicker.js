@@ -1,7 +1,12 @@
 import React from 'react';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { getFunName } from '../helpers';
 
 class StorePicker extends React.Component {
+  static propTypes = {
+    history: ReactRouterPropTypes.history.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.myInput = React.createRef();
@@ -10,7 +15,8 @@ class StorePicker extends React.Component {
   goToStore = event => {
     event.preventDefault();
     const storeName = this.myInput.current.value;
-    this.props.history.push(`/store/${storeName}`);
+    const { history } = this.props;
+    history.push(`/store/${storeName}`);
   };
 
   render() {
