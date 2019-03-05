@@ -50,12 +50,12 @@ const Order = class extends React.Component {
 export default Order;
 
 Order.propTypes = {
-  fishes: PropTypes.arrayOf(
+  fishes: PropTypes.objectOf(
     PropTypes.shape({
       name: PropTypes.string,
       price: PropTypes.number,
       status: PropTypes.string
     })
   ).isRequired,
-  order: PropTypes.arrayOf(PropTypes.number).isRequired
+  order: PropTypes.objectOf(PropTypes.number).isRequired
 };

@@ -1,17 +1,41 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Header from './Header';
 import Inventory from './Inventory';
 import Order from './Order';
 import sampleFishes from '../sample-fishes';
 import Fish from './Fish';
+import base from '../base';
 
 class App extends React.Component {
+  static propTypes = {
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        storeId: PropTypes.string.isRequired
+      }).isRequired
+    }).isRequired
+  };
+
   constructor() {
     super();
     this.state = {
       fishes: {},
       order: {}
     };
+  }
+
+  componentDidMount() {
+    const {
+      match: { params }
+    } = this.props;
+    this.ref = base.syncState(`${params.storeId}/fishes`, {
+      context: this,
+      state: 'fishes'
+    });
+  }
+
+  componentWillUnmount() {
+    base.removeBinding(this.ref);
   }
 
   addFish = fish => {
