@@ -28,10 +28,27 @@ class App extends React.Component {
     const {
       match: { params }
     } = this.props;
+
     this.ref = base.syncState(`${params.storeId}/fishes`, {
       context: this,
       state: 'fishes'
     });
+
+    const localStorageRef = localStorage.getItem(params.storeId);
+
+    if (localStorageRef) {
+      this.setState({ order: JSON.parse(localStorageRef) });
+    }
+  }
+
+  componentDidUpdate() {
+    const {
+      match: { params }
+    } = this.props;
+
+    const { order } = this.state;
+
+    localStorage.setItem(params.storeId, JSON.stringify(order));
   }
 
   componentWillUnmount() {
