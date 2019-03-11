@@ -18,6 +18,7 @@ class AddFishForm extends React.Component {
   createFish = event => {
     event.preventDefault();
     const fish = {
+      key: null,
       name: this.nameRef.current.value,
       price: parseFloat(this.priceRef.current.value),
       status: this.statusRef.current.value,
@@ -36,7 +37,7 @@ class AddFishForm extends React.Component {
         <input
           name="price"
           ref={this.priceRef}
-          type="text"
+          type="number"
           placeholder="Price"
         />
         <select name="status" ref={this.statusRef}>

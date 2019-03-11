@@ -55,13 +55,26 @@ class App extends React.Component {
     base.removeBinding(this.ref);
   }
 
-  addFish = fish => {
+  saveFishToState = (key, fish) => {
     const { fishes } = this.state;
-    const key = `fish${Date.now()}`;
     fishes[key] = fish;
     this.setState({
       fishes
     });
+  };
+
+  addFish = fish => {
+    const key = `fish${Date.now()}`;
+    this.saveFishToState(key, { ...fish, key });
+  };
+
+  updateFish = fish => {
+    this.saveFishToState(fish.key, fish);
+  };
+
+  deleteFish = key => {
+    this.deleteFromOrder(key);
+    this.saveFishToState(key, null);
   };
 
   loadSampleFishes = () => {
@@ -74,6 +87,12 @@ class App extends React.Component {
     this.setState({ order });
   };
 
+  deleteFromOrder = key => {
+    const { order } = this.state;
+    delete order[key];
+    this.setState({ order });
+  };
+
   render() {
     const { fishes, order } = this.state;
 
@@ -83,19 +102,21 @@ class App extends React.Component {
           <Header tagline="Fresh Seafood Market" />
           <ul className="fishes">
             {Object.keys(fishes).map(key => (
-              <Fish
-                key={key}
-                fish={fishes[key]}
-                addToOrder={this.addToOrder}
-                index={key}
-              />
+              <Fish key={key} fish={fishes[key]} addToOrder={this.addToOrder} />
             ))}
           </ul>
         </div>
-        <Order fishes={fishes} order={order} />
+        <Order
+          fishes={fishes}
+          order={order}
+          deleteFromOrder={this.deleteFromOrder}
+        />
         <Inventory
           addFish={this.addFish}
+          updateFish={this.updateFish}
+          deleteFish={this.deleteFish}
           loadSampleFishes={this.loadSampleFishes}
+          fishes={fishes}
         />
       </div>
     );
